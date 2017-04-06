@@ -46,8 +46,10 @@ class LineGen(object):
             repl, self.template)
 
         # unescape '{' & '}' in cmds
-        self.cmds = [re.sub(r'{{', '{', c) for c in self.cmds]
-        self.cmds = [re.sub(r'}}', '}', c) for c in self.cmds]
+        self.cmds = [re.sub(r'(?:{{|}})',
+                            lambda m: m.group()[0],
+                            c)
+                     for c in self.cmds]
 
         # initialize lists with null values
         self.procs = [None]*len(self.cmds)
